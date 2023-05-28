@@ -7,8 +7,9 @@ using UnityEngine;
 public class SpawnPlayers : MonoBehaviour
 {
     public CinemachineFreeLook cine;
+    public GameObject playerOffline;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         if (PhotonNetwork.IsConnected)
         {
@@ -17,6 +18,15 @@ public class SpawnPlayers : MonoBehaviour
             cine.Follow = obj.transform;
             cine.LookAt = obj.transform;
             obj.GetComponent<PlayerMoveNew>().cam = GameObject.Find("MainCamera").transform;
+        }
+        else {
+            int randomX = Random.Range(-7, 7);
+            GameObject obj = Instantiate(playerOffline, new Vector3(randomX, 1.0051f, -9.6113f), Quaternion.identity);
+            cine.Follow = obj.transform;
+            cine.LookAt = obj.transform;
+            obj.GetComponent<PlayerMoveNew>().cam = GameObject.Find("MainCamera").transform;
+
+
         }
     }
 

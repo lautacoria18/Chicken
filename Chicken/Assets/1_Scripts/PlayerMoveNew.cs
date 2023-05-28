@@ -22,6 +22,19 @@ public class PlayerMoveNew : MonoBehaviourPunCallbacks
 
     public bool canMove = true;
 
+    public int Laps;
+    public int deaths;
+
+    public GameObject scoreboard;
+    private void Awake()
+    {
+        if (PhotonNetwork.IsConnected) {
+
+            if (!photonView.IsMine) {
+                Destroy(this);
+            }
+        }
+    }
 
     private void Start()
     {
@@ -31,6 +44,8 @@ public class PlayerMoveNew : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsConnected && base.photonView.IsMine)
         {
+            GameManager.Instance.SetDeathsAndLaps(deaths, Laps);
+
             if (canMove)
             {
                 float horizontalInput = Input.GetAxisRaw("Horizontal");
@@ -89,6 +104,67 @@ public class PlayerMoveNew : MonoBehaviourPunCallbacks
                 }
             }
         }
+        else {
+            if (canMove)
+            {
+                float horizontalInput = Input.GetAxisRaw("Horizontal");
+                float verticalinput = Input.GetAxisRaw("Vertical");
+
+                Vector3 direction = new Vector3(horizontalInput, 0f, verticalinput).normalized;
+
+                if (direction.magnitude >= 0.1f)
+                {
+                    float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y; ;
+                    float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+                    transform.rotation = Quaternion.Euler(0f, angle, 0f);
+
+                    Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+                    controller.Move(moveDir.normalized * speed * Time.deltaTime);
+
+                }
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    isRunning = true;
+                    speed = 10f;
+                }
+                if (Input.GetKeyUp(KeyCode.LeftShift))
+                {
+                    speed = 6f;
+                    isRunning = false;
+                }
+
+
+                if (Input.GetAxisRaw("Vertical") != 0 || Input.GetAxisRaw("Horizontal") != 0)
+                {
+                    if (isRunning)
+                    {
+
+                        anim.SetTrigger("Run");
+
+                    }
+                    else
+                    {
+                        anim.ResetTrigger("Run");
+                        anim.SetTrigger("StopRunning");
+                        anim.ResetTrigger("StopWalk");
+                        anim.SetTrigger("Walk");
+                        Debug.Log("mueve");
+                    }
+
+                }
+
+
+                if (Input.GetAxisRaw("Vertical") == 0 && Input.GetAxisRaw("Horizontal") == 0)
+                {
+                    Debug.Log("nada");
+                    anim.ResetTrigger("Walk");
+                    anim.SetTrigger("StopWalk");
+                    anim.SetTrigger("StopRunning");
+                }
+            }
+
+
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -96,10 +172,26 @@ public class PlayerMoveNew : MonoBehaviourPunCallbacks
         if (other.gameObject.tag == "car")
         {
             //transform.parent.transform.parent.position = respawnPosition.position;
+            GetComponent<AudioSource>().Play();
+            deaths++;
             canMove = false;
             transform.position = respawnPosition.position;
             StartCoroutine(Wait());
             Debug.Log("Choco");
+        }
+        if (other.gameObject.tag == "win")
+        {
+            //transform.parent.transform.parent.position = respawnPosition.position;
+            canMove = false;
+            transform.position = respawnPosition.position;
+            StartCoroutine(Wait());
+            Debug.Log("vuelta");
+            Laps++;
+            if (Laps == GameManager.Instance.lapsToWin) {
+                GameManager.Instance.OpenWinnerPanel();
+                Debug.Log("Ganaste!");
+            
+            }
         }
     }
 

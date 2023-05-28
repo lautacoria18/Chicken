@@ -20,7 +20,7 @@ public class BackColliderBehaviour : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "FrontCollider") {
-            transform.parent.gameObject.GetComponent<Car_Behaviour>().speed= collision.gameObject.transform.parent.gameObject.GetComponent<Car_Behaviour>().speed + 1;
+            transform.parent.gameObject.GetComponent<Car_Behaviour>().speed= collision.gameObject.transform.parent.gameObject.GetComponent<Car_Behaviour>().speed + 0.5f;
             Debug.Log("ASSDFAf");
         }
     }

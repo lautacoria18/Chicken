@@ -10,8 +10,18 @@ public class Lobby : MonoBehaviourPunCallbacks
 {
 
     public Text [] playerListText;
-    void Start()
+
+    public GameObject PlayersPanel;
+
+    private void Awake()
     {
+        GameObject child = PhotonNetwork.Instantiate("LobbyPlayerInfo", new Vector3(0f, 0f, 0f), Quaternion.identity);
+        child.transform.SetParent(PlayersPanel.transform);
+        child.transform.localScale = new Vector3(0.430000007f, 0.0799999982f, 0.737063289f);
+    }
+
+    void Start()
+    {/*
         Debug.Log(PhotonNetwork.NickName);
         Debug.Log(PhotonNetwork.CurrentRoom.Name);
         Debug.Log(PhotonNetwork.CurrentRoom.MaxPlayers);
@@ -33,6 +43,7 @@ public class Lobby : MonoBehaviourPunCallbacks
 
 
         }
+        */
     }
 
 
@@ -41,7 +52,7 @@ public class Lobby : MonoBehaviourPunCallbacks
         Debug.Log("cambiio");
 
     }
-
+/*
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
@@ -52,7 +63,7 @@ public class Lobby : MonoBehaviourPunCallbacks
 
     }
     
-
+    */
     public void StartGame()
     {
 
