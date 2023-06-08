@@ -32,4 +32,11 @@ public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         theText.color = firstColor; //Or however you do your color
     }
+
+    public void OpenLink(string link) {
+
+
+        Application.OpenURL(link);
+
+    }
 }

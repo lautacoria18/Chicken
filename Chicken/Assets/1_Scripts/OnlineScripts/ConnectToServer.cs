@@ -6,9 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class ConnectToServer : MonoBehaviourPunCallbacks
 {
-    void Start()
+    void Awake()
     {
-        PhotonNetwork.ConnectUsingSettings();
+        
+        StartCoroutine(WaitAndConnect());
+       
     }
 
 
@@ -20,6 +22,13 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         SceneManager.LoadScene("MainMenu");
+    }
+
+    IEnumerator WaitAndConnect() {
+
+
+        yield return new WaitForSeconds(2f);
+        PhotonNetwork.ConnectUsingSettings();
     }
 
 }

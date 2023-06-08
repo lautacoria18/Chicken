@@ -21,9 +21,9 @@ public class PlayerScore : MonoBehaviourPunCallbacks
             parentPanel = GameObject.Find("PlayersPanel");
         }
         else {
-            parentPanel = GameObject.Find("PlayersPanel");
+            parentPanel = GameManager.Instance.playersPanel;
             //parentPanel.SetActive(false);
-
+            
         }
     }
     private void Start()

@@ -13,20 +13,17 @@ public class GameManager : MonoBehaviourPunCallbacks
     public GameObject textWinnerPanel;
 
 
-    public GameObject scoreboard;
+    public GameObject scoreboard, playersPanel;
 
     public int laps, deaths;
+
+    public bool canPlay;
     void Awake()
     {
-        if (Instance != null)
-        {
-            GameObject.Destroy(Instance);
-        }
-        else
-        {
+      
             Instance = this;
-            DontDestroyOnLoad(this);
-        }
+       
+        lapsToWin = GameConstants.Instance.laps;
     }
     private void Update()
     {
@@ -34,11 +31,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (Input.GetKey(KeyCode.Tab))
         {
 
-            scoreboard.SetActive(true);
+            scoreboard.transform.localPosition = new Vector3(0, 0, 0);
         }
         else
         {
-            scoreboard.SetActive(false);
+            scoreboard.transform.localPosition = new Vector3(0, -1889f, 0);
 
         }
 

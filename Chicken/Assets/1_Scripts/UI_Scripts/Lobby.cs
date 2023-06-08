@@ -21,7 +21,9 @@ public class Lobby : MonoBehaviourPunCallbacks
     }
 
     void Start()
-    {/*
+    {
+        
+        /*
         Debug.Log(PhotonNetwork.NickName);
         Debug.Log(PhotonNetwork.CurrentRoom.Name);
         Debug.Log(PhotonNetwork.CurrentRoom.MaxPlayers);
@@ -52,18 +54,24 @@ public class Lobby : MonoBehaviourPunCallbacks
         Debug.Log("cambiio");
 
     }
-/*
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+    /*
+        public override void OnPlayerEnteredRoom(Player newPlayer)
         {
-            playerListText[i].text = PhotonNetwork.PlayerList[i].NickName;
+            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+            {
+                playerListText[i].text = PhotonNetwork.PlayerList[i].NickName;
+
+            }
 
         }
 
-    }
+        */
+    public void BackToMenu() {
+
+        PhotonNetwork.LeaveRoom(false);
+        PhotonNetwork.LoadLevel("MainMenu");
     
-    */
+    }
     public void StartGame()
     {
 

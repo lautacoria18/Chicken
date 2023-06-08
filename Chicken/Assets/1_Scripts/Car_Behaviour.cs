@@ -10,9 +10,12 @@ public class Car_Behaviour : MonoBehaviour
     public Transform startPoint, endPoint;
     public Vector3 startP, alternativeStart;
     public float speed;
+    public float speedWheel;
     public bool fromRight;
     public string currentRail;
     public RailBehaviour parentScript;
+
+    public Transform w1, w2, w3, w4;
 
     void Start()
     {
@@ -37,6 +40,11 @@ public class Car_Behaviour : MonoBehaviour
             {
                 transform.Translate(Vector3.right * Time.deltaTime * speed);
             }
+
+            w1.Rotate(new Vector3(speed * speedWheel * 2, 0, 0) * Time.deltaTime);
+            w2.Rotate(new Vector3(speed * speedWheel * 2, 0, 0) * Time.deltaTime);
+            w3.Rotate(new Vector3(speed * speedWheel * 2, 0, 0) * Time.deltaTime);
+            w4.Rotate(new Vector3(speed * speedWheel * 2, 0, 0) * Time.deltaTime);
         }
         //transform.position = Vector3.Lerp(startPoint.position, endPoint.position, Time.deltaTime * speed);
     }

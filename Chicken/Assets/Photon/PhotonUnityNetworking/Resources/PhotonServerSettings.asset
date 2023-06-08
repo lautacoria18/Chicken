@@ -43,6 +43,8 @@ MonoBehaviour:
   - RPC_Spawn
   - RPC_ShowWinnerPanel
   - RPC_SyncData
+  - RPC_SetLaps
+  - RPC_SendToLobby
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
